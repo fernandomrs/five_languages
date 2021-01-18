@@ -1,4 +1,4 @@
-defmodule FiveLanguages.Search.Repositoriy do
+defmodule FiveLanguages.Search.Repository do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -8,8 +8,8 @@ defmodule FiveLanguages.Search.Repositoriy do
   end
 
   @doc false
-  def changeset(repositoriy, attrs) do
-    repositoriy
+  def changeset(repository, attrs) do
+    repository
     |> cast(attrs, [])
     |> validate_required([])
   end

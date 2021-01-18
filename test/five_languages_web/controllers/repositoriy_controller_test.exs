@@ -1,4 +1,4 @@
-defmodule FiveLanguagesWeb.RepositoriyControllerTest do
+defmodule FiveLanguagesWeb.RepositoryControllerTest do
   use FiveLanguagesWeb.ConnCase
 
   alias FiveLanguages.Search
@@ -7,82 +7,82 @@ defmodule FiveLanguagesWeb.RepositoriyControllerTest do
   @update_attrs %{}
   @invalid_attrs %{}
 
-  def fixture(:repositoriy) do
-    {:ok, repositoriy} = Search.create_repositoriy(@create_attrs)
-    repositoriy
+  def fixture(:repository) do
+    {:ok, repository} = Search.create_repository(@create_attrs)
+    repository
   end
 
   describe "index" do
     test "lists all repositories", %{conn: conn} do
-      conn = get(conn, Routes.repositoriy_path(conn, :index))
+      conn = get(conn, Routes.repository_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Repositories"
     end
   end
 
-  describe "new repositoriy" do
+  describe "new repository" do
     test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.repositoriy_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Repositoriy"
+      conn = get(conn, Routes.repository_path(conn, :new))
+      assert html_response(conn, 200) =~ "New Repository"
     end
   end
 
-  describe "create repositoriy" do
+  describe "create repository" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.repositoriy_path(conn, :create), repositoriy: @create_attrs)
+      conn = post(conn, Routes.repository_path(conn, :create), repository: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.repositoriy_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.repository_path(conn, :show, id)
 
-      conn = get(conn, Routes.repositoriy_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Repositoriy"
+      conn = get(conn, Routes.repository_path(conn, :show, id))
+      assert html_response(conn, 200) =~ "Show Repository"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.repositoriy_path(conn, :create), repositoriy: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Repositoriy"
+      conn = post(conn, Routes.repository_path(conn, :create), repository: @invalid_attrs)
+      assert html_response(conn, 200) =~ "New Repository"
     end
   end
 
-  describe "edit repositoriy" do
-    setup [:create_repositoriy]
+  describe "edit repository" do
+    setup [:create_repository]
 
-    test "renders form for editing chosen repositoriy", %{conn: conn, repositoriy: repositoriy} do
-      conn = get(conn, Routes.repositoriy_path(conn, :edit, repositoriy))
-      assert html_response(conn, 200) =~ "Edit Repositoriy"
+    test "renders form for editing chosen repository", %{conn: conn, repository: repository} do
+      conn = get(conn, Routes.repository_path(conn, :edit, repository))
+      assert html_response(conn, 200) =~ "Edit Repository"
     end
   end
 
-  describe "update repositoriy" do
-    setup [:create_repositoriy]
+  describe "update repository" do
+    setup [:create_repository]
 
-    test "redirects when data is valid", %{conn: conn, repositoriy: repositoriy} do
-      conn = put(conn, Routes.repositoriy_path(conn, :update, repositoriy), repositoriy: @update_attrs)
-      assert redirected_to(conn) == Routes.repositoriy_path(conn, :show, repositoriy)
+    test "redirects when data is valid", %{conn: conn, repository: repository} do
+      conn = put(conn, Routes.repository_path(conn, :update, repository), repository: @update_attrs)
+      assert redirected_to(conn) == Routes.repository_path(conn, :show, repository)
 
-      conn = get(conn, Routes.repositoriy_path(conn, :show, repositoriy))
+      conn = get(conn, Routes.repository_path(conn, :show, repository))
       assert html_response(conn, 200)
     end
 
-    test "renders errors when data is invalid", %{conn: conn, repositoriy: repositoriy} do
-      conn = put(conn, Routes.repositoriy_path(conn, :update, repositoriy), repositoriy: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Repositoriy"
+    test "renders errors when data is invalid", %{conn: conn, repository: repository} do
+      conn = put(conn, Routes.repository_path(conn, :update, repository), repository: @invalid_attrs)
+      assert html_response(conn, 200) =~ "Edit Repository"
     end
   end
 
-  describe "delete repositoriy" do
-    setup [:create_repositoriy]
+  describe "delete repository" do
+    setup [:create_repository]
 
-    test "deletes chosen repositoriy", %{conn: conn, repositoriy: repositoriy} do
-      conn = delete(conn, Routes.repositoriy_path(conn, :delete, repositoriy))
-      assert redirected_to(conn) == Routes.repositoriy_path(conn, :index)
+    test "deletes chosen repository", %{conn: conn, repository: repository} do
+      conn = delete(conn, Routes.repository_path(conn, :delete, repository))
+      assert redirected_to(conn) == Routes.repository_path(conn, :index)
       assert_error_sent 404, fn ->
-        get(conn, Routes.repositoriy_path(conn, :show, repositoriy))
+        get(conn, Routes.repository_path(conn, :show, repository))
       end
     end
   end
 
-  defp create_repositoriy(_) do
-    repositoriy = fixture(:repositoriy)
-    %{repositoriy: repositoriy}
+  defp create_repository(_) do
+    repository = fixture(:repository)
+    %{repository: repository}
   end
 end

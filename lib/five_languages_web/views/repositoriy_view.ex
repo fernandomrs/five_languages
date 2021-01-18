@@ -1,3 +1,3 @@
-defmodule FiveLanguagesWeb.RepositoriyView do
+defmodule FiveLanguagesWeb.RepositoryView do
   use FiveLanguagesWeb, :view
 end

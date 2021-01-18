@@ -1,5 +1,5 @@
-<h1>Edit Repositoriy</h1>
+<h1>Edit Repository</h1>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.repositoriy_path(@conn, :update, @repositoriy)) %>
+<%= render "form.html", Map.put(assigns, :action, Routes.repository_path(@conn, :update, @repository)) %>
 
-<span><%= link "Back", to: Routes.repositoriy_path(@conn, :index) %></span>
+<span><%= link "Back", to: Routes.repository_path(@conn, :index) %></span>

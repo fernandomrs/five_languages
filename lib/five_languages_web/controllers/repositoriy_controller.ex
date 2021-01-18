@@ -1,8 +1,8 @@
-defmodule FiveLanguagesWeb.RepositoriyController do
+defmodule FiveLanguagesWeb.RepositoryController do
   use FiveLanguagesWeb, :controller
 
   alias FiveLanguages.Search
-  alias FiveLanguages.Search.Repositoriy
+  alias FiveLanguages.Search.Repository
 
   def index(conn, _params) do
     repositories = Search.list_repositories() |> IO.inspect
@@ -10,16 +10,16 @@ defmodule FiveLanguagesWeb.RepositoriyController do
   end
 
   def new(conn, _params) do
-    changeset = Search.change_repositoriy(%Repositoriy{})
+    changeset = Search.change_repository(%Repository{})
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"repositoriy" => repositoriy_params}) do
-    case Search.create_repositoriy(repositoriy_params) do
-      {:ok, repositoriy} ->
+  def create(conn, %{"repository" => repository_params}) do
+    case Search.create_repository(repository_params) do
+      {:ok, repository} ->
         conn
-        |> put_flash(:info, "Repositoriy created successfully.")
-        |> redirect(to: Routes.repositoriy_path(conn, :show, repositoriy))
+        |> put_flash(:info, "Repository created successfully.")
+        |> redirect(to: Routes.repository_path(conn, :show, repository))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -27,36 +27,36 @@ defmodule FiveLanguagesWeb.RepositoriyController do
   end
 
   def show(conn, %{"id" => id}) do
-    repositoriy = Search.get_repositoriy!(id)
-    render(conn, "show.html", repositoriy: repositoriy)
+    repository = Search.get_repository!(id)
+    render(conn, "show.html", repository: repository)
   end
 
   def edit(conn, %{"id" => id}) do
-    repositoriy = Search.get_repositoriy!(id)
-    changeset = Search.change_repositoriy(repositoriy)
-    render(conn, "edit.html", repositoriy: repositoriy, changeset: changeset)
+    repository = Search.get_repository!(id)
+    changeset = Search.change_repository(repository)
+    render(conn, "edit.html", repository: repository, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "repositoriy" => repositoriy_params}) do
-    repositoriy = Search.get_repositoriy!(id)
+  def update(conn, %{"id" => id, "repository" => repository_params}) do
+    repository = Search.get_repository!(id)
 
-    case Search.update_repositoriy(repositoriy, repositoriy_params) do
-      {:ok, repositoriy} ->
+    case Search.update_repository(repository, repository_params) do
+      {:ok, repository} ->
         conn
-        |> put_flash(:info, "Repositoriy updated successfully.")
-        |> redirect(to: Routes.repositoriy_path(conn, :show, repositoriy))
+        |> put_flash(:info, "Repository updated successfully.")
+        |> redirect(to: Routes.repository_path(conn, :show, repository))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", repositoriy: repositoriy, changeset: changeset)
+        render(conn, "edit.html", repository: repository, changeset: changeset)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    repositoriy = Search.get_repositoriy!(id)
-    {:ok, _repositoriy} = Search.delete_repositoriy(repositoriy)
+    repository = Search.get_repository!(id)
+    {:ok, _repository} = Search.delete_repository(repository)
 
     conn
-    |> put_flash(:info, "Repositoriy deleted successfully.")
-    |> redirect(to: Routes.repositoriy_path(conn, :index))
+    |> put_flash(:info, "Repository deleted successfully.")
+    |> redirect(to: Routes.repository_path(conn, :index))
   end
 end

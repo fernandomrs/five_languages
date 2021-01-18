@@ -6,7 +6,8 @@ defmodule FiveLanguages.Search do
   import Ecto.Query, warn: false
   alias FiveLanguages.Repo
 
-  alias FiveLanguages.Search.Repositoriy
+  alias FiveLanguages.Search.Repository
+  alias FiveLanguages.ApiGit.SearchRepositories
 
   @doc """
   Returns the list of repositories.
@@ -14,102 +15,120 @@ defmodule FiveLanguages.Search do
   ## Examples
 
       iex> list_repositories()
-      [%Repositoriy{}, ...]
+      [%Repository{}, ...]
 
   """
-  def list_repositories do
-    url = "https://api.github.com/search/repositories?q=language:elixir&per_page=1"
-    url
-    |> HTTPoison.get!()
-    |> case do
-      %HTTPoison.Response{body: body} -> Jason.decode!(body)
-      _ -> :error
-    end
+
+  def list_repositories(languages) do
+    sync_main_repositories(languages)
+    # Repo.all(Repository)
+  end
+
+  defp sync_main_repositories(languages) do
+    languages
+    |> Task.async_stream(fn language ->
+      attrs = search_repositories([
+        q: "language:#{language}",
+        per_page: 1,
+        sort: "stars",
+        order: "desc"
+      ])
+
+      %Repository{}
+      |> Repository.changeset(attrs)
+      |> Repo.insert_or_update!()
+    end)
+    |> Stream.into(%{})
+    |> Enum.map(fn {:ok, item} -> item end)
+  end
+
+  def search_repositories(params \\ []) do
+    params
+    |> SearchRepositories.do_request()
     |> case do
       %{"items" => items} -> items
       error -> error
     end
-    # Repo.all(Repositoriy)
   end
 
   @doc """
-  Gets a single repositoriy.
+  Gets a single repository.
 
-  Raises `Ecto.NoResultsError` if the Repositoriy does not exist.
+  Raises `Ecto.NoResultsError` if the Repository does not exist.
 
   ## Examples
 
-      iex> get_repositoriy!(123)
-      %Repositoriy{}
+      iex> get_repository!(123)
+      %Repository{}
 
-      iex> get_repositoriy!(456)
+      iex> get_repository!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_repositoriy!(id), do: Repo.get!(Repositoriy, id)
+  def get_repository!(id), do: Repo.get!(Repository, id)
 
   @doc """
-  Creates a repositoriy.
+  Creates a repository.
 
   ## Examples
 
-      iex> create_repositoriy(%{field: value})
-      {:ok, %Repositoriy{}}
+      iex> create_repository(%{field: value})
+      {:ok, %Repository{}}
 
-      iex> create_repositoriy(%{field: bad_value})
+      iex> create_repository(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_repositoriy(attrs \\ %{}) do
-    %Repositoriy{}
-    |> Repositoriy.changeset(attrs)
+  def create_repository(attrs \\ %{}) do
+    %Repository{}
+    |> Repository.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a repositoriy.
+  Updates a repository.
 
   ## Examples
 
-      iex> update_repositoriy(repositoriy, %{field: new_value})
-      {:ok, %Repositoriy{}}
+      iex> update_repository(repository, %{field: new_value})
+      {:ok, %Repository{}}
 
-      iex> update_repositoriy(repositoriy, %{field: bad_value})
+      iex> update_repository(repository, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_repositoriy(%Repositoriy{} = repositoriy, attrs) do
-    repositoriy
-    |> Repositoriy.changeset(attrs)
+  def update_repository(%Repository{} = repository, attrs) do
+    repository
+    |> Repository.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a repositoriy.
+  Deletes a repository.
 
   ## Examples
 
-      iex> delete_repositoriy(repositoriy)
-      {:ok, %Repositoriy{}}
+      iex> delete_repository(repository)
+      {:ok, %Repository{}}
 
-      iex> delete_repositoriy(repositoriy)
+      iex> delete_repository(repository)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_repositoriy(%Repositoriy{} = repositoriy) do
-    Repo.delete(repositoriy)
+  def delete_repository(%Repository{} = repository) do
+    Repo.delete(repository)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking repositoriy changes.
+  Returns an `%Ecto.Changeset{}` for tracking repository changes.
 
   ## Examples
 
-      iex> change_repositoriy(repositoriy)
-      %Ecto.Changeset{data: %Repositoriy{}}
+      iex> change_repository(repository)
+      %Ecto.Changeset{data: %Repository{}}
 
   """
-  def change_repositoriy(%Repositoriy{} = repositoriy, attrs \\ %{}) do
-    Repositoriy.changeset(repositoriy, attrs)
+  def change_repository(%Repository{} = repository, attrs \\ %{}) do
+    Repository.changeset(repository, attrs)
   end
 end
