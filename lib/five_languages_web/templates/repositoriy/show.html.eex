@@ -1,0 +1,7 @@
+<h1>Show Repositoriy</h1>
+
+<ul>
+
+</ul>
+
+<span><%= @conn %></span>

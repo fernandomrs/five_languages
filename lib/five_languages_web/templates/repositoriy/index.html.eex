@@ -1,0 +1,24 @@
+<h1>Listing Repositories</h1>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for repositoriy <- @repositories do %>
+    <tr>
+
+      <td>
+        <span><%= link "Show", to: Routes.repositoriy_path(@conn, :show, repositoriy) %></span>
+        <span><%= link "Edit", to: Routes.repositoriy_path(@conn, :edit, repositoriy) %></span>
+        <span><%= link "Delete", to: Routes.repositoriy_path(@conn, :delete, repositoriy), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Repositoriy", to: Routes.repositoriy_path(@conn, :new) %></span>
