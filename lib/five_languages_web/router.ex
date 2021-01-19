@@ -17,6 +17,7 @@ defmodule FiveLanguagesWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/repositories", RepositoriyController
   end
 
   # Other scopes may use custom stacks.

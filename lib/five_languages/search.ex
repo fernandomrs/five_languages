@@ -19,12 +19,15 @@ defmodule FiveLanguages.Search do
 
   """
 
+  # FiveLanguages.Search.list_repositories(["elixir", "python", "swift", "kotlin", "javascript"])
   def list_repositories(languages) do
     sync_main_repositories(languages)
-    # Repo.all(Repository)
+    Repo.all(Repository)
   end
 
   defp sync_main_repositories(languages) do
+    Repo.delete_all(Repository)
+
     languages
     |> Task.async_stream(fn language ->
       attrs = search_repositories([
@@ -36,7 +39,7 @@ defmodule FiveLanguages.Search do
 
       %Repository{}
       |> Repository.changeset(attrs)
-      |> Repo.insert_or_update!()
+      |> Repo.insert()
     end)
     |> Stream.into(%{})
     |> Enum.map(fn {:ok, item} -> item end)
@@ -46,7 +49,12 @@ defmodule FiveLanguages.Search do
     params
     |> SearchRepositories.do_request()
     |> case do
-      %{"items" => items} -> items
+      %{"items" => [item]} ->
+        item
+        |> Map.update!("owner", & &1["login"])
+        |> IO.inspect()
+        |> Map.put("git_id", Map.get(item, "id"))
+
       error -> error
     end
   end

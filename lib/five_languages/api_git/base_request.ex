@@ -42,10 +42,10 @@ defmodule FiveLanguages.ApiGit.BaseRequest do
       |> Enum.map(fn {key, value} -> "#{key}=#{value}" end)
       |> Enum.join("&")
 
-    "urn?#{params}"
+    "#{urn}?#{params}"
   end
 
   def prepare_urn(_, _, urn), do: urn
 
-  def prepare_body(_, _, _), do: %{}
+  def prepare_body(_, _, _), do: "{}"
 end

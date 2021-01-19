@@ -8,7 +8,7 @@ defmodule FiveLanguages.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      # FiveLanguages.Repo,
+      FiveLanguages.Repo,
       # Start the Telemetry supervisor
       FiveLanguagesWeb.Telemetry,
       # Start the PubSub system
