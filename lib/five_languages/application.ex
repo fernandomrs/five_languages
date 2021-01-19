@@ -9,8 +9,6 @@ defmodule FiveLanguages.Application do
     children = [
       # Start the Ecto repository
       FiveLanguages.Repo,
-      # Start the Telemetry supervisor
-      FiveLanguagesWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: FiveLanguages.PubSub},
       # Start the Endpoint (http/https)

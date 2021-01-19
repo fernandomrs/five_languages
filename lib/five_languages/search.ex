@@ -10,22 +10,34 @@ defmodule FiveLanguages.Search do
   alias FiveLanguages.ApiGit.SearchRepositories
 
   @doc """
-  Returns the list of repositories.
+  Retorna a listagem de repositórios com mais estrelas de cinco linguagens.
 
   ## Examples
-
-      iex> list_repositories()
+      iex> list_main_repositories(["elixir", "python", "swift", "kotlin", "javascript"])
       [%Repository{}, ...]
 
   """
+  def list_main_repositories(languages) when is_list(languages) do
+    Repository
+    |> Repo.all()
+    |> case do
+      result when length(result) >= 5 ->
+        {:ok, result}
 
-  # FiveLanguages.Search.list_repositories(["elixir", "python", "swift", "kotlin", "javascript"])
-  def list_repositories(languages) do
-    sync_main_repositories(languages)
-    Repo.all(Repository)
+      _ ->
+        sync_main_repositories(languages)
+    end
   end
 
-  defp sync_main_repositories(languages) do
+  @doc """
+  Consulta e salva os repositórios com mais estrelas de cinco linguagens.
+
+  ## Examples
+      iex> sync_main_repositories(["elixir", "python", "swift", "kotlin", "javascript"])
+      [%Repository{}, ...]
+
+  """
+  def sync_main_repositories(languages) do
     Repo.delete_all(Repository)
 
     languages
@@ -39,20 +51,19 @@ defmodule FiveLanguages.Search do
 
       %Repository{}
       |> Repository.changeset(attrs)
-      |> Repo.insert()
+      |> Repo.insert!()
     end)
     |> Stream.into(%{})
     |> Enum.map(fn {:ok, item} -> item end)
   end
 
-  def search_repositories(params \\ []) do
+  defp search_repositories(params \\ []) do
     params
     |> SearchRepositories.do_request()
     |> case do
       %{"items" => [item]} ->
         item
-        |> Map.update!("owner", & &1["login"])
-        |> IO.inspect()
+        |> Map.update!("owner", & Map.get(&1, "login"))
         |> Map.put("git_id", Map.get(item, "id"))
 
       error -> error
@@ -74,69 +85,4 @@ defmodule FiveLanguages.Search do
 
   """
   def get_repository!(id), do: Repo.get!(Repository, id)
-
-  @doc """
-  Creates a repository.
-
-  ## Examples
-
-      iex> create_repository(%{field: value})
-      {:ok, %Repository{}}
-
-      iex> create_repository(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_repository(attrs \\ %{}) do
-    %Repository{}
-    |> Repository.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a repository.
-
-  ## Examples
-
-      iex> update_repository(repository, %{field: new_value})
-      {:ok, %Repository{}}
-
-      iex> update_repository(repository, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_repository(%Repository{} = repository, attrs) do
-    repository
-    |> Repository.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a repository.
-
-  ## Examples
-
-      iex> delete_repository(repository)
-      {:ok, %Repository{}}
-
-      iex> delete_repository(repository)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_repository(%Repository{} = repository) do
-    Repo.delete(repository)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking repository changes.
-
-  ## Examples
-
-      iex> change_repository(repository)
-      %Ecto.Changeset{data: %Repository{}}
-
-  """
-  def change_repository(%Repository{} = repository, attrs \\ %{}) do
-    Repository.changeset(repository, attrs)
-  end
 end

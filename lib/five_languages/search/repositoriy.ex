@@ -26,6 +26,8 @@ defmodule FiveLanguages.Search.Repository do
     timestamps()
   end
 
+  def changeset(_, :error), do: :erro_na_consulta
+
   @doc false
   def changeset(repository, attrs) do
     repository
