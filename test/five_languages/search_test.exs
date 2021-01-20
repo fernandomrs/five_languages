@@ -4,29 +4,36 @@ defmodule FiveLanguages.SearchTest do
   alias FiveLanguages.Search
 
   describe "repositories" do
-    alias FiveLanguages.Search.Repository
-
-    @valid_attrs %{}
-    @update_attrs %{}
-    @invalid_attrs %{}
-
-    def repository_fixture(attrs \\ %{}) do
-      {:ok, repository} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Search.create_repository()
-
-      repository
+    test "list_main_repositories/1 retorna todos os repositórios após primeira consulta" do
+      repository = repository_fixture()
+      assert Search.list_main_repositories() == [repository]
     end
 
-    test "list_repositories/1 returns all repositories" do
-      repository = repository_fixture()
-      assert Search.list_repositories() == [repository]
+    test "list_main_repositories/1 erro na consulta no git_api na primeira consulta dos repositórios" do
     end
 
-    test "get_repository/1 returns the repository with given id" do
-      repository = repository_fixture()
-      assert Search.get_repository!(repository.id) == repository
+    test "list_main_repositories/1 erro na consulta do banco na primeira consulta dos repositórios" do
+    end
+
+    test "list_main_repositories/1 retorna todos os repositórios após segunda consulta" do
+    end
+
+    test "sync_main_repositories/1 retorna todos os repositórios" do
+    end
+
+    test "sync_main_repositories/1 erro ao excluir os repositórios" do
+    end
+
+    test "sync_main_repositories/1 erro na consulta de um ou mais repositórios" do
+    end
+
+    test "get_repository/1 retorna o repositório de acordo com o id" do
+    end
+
+    test "get_repository/1 erro na consulta do banco ao retornar o repositório" do
+    end
+
+    test "get_repository/1 erro na consulta da api_git ao retornar o repositório" do
     end
   end
 end

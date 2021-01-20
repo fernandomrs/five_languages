@@ -3,24 +3,27 @@ defmodule FiveLanguagesWeb.RepositoryControllerTest do
 
   alias FiveLanguages.Search
 
-  @create_attrs %{}
-  @update_attrs %{}
-  @invalid_attrs %{}
-
-  def fixture(:repository) do
-    {:ok, repository} = Search.create_repository(@create_attrs)
-    repository
-  end
-
   describe "index" do
-    test "lists all repositories", %{conn: conn} do
+    test "listar os repositórios", %{conn: conn} do
       conn = get(conn, Routes.repository_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Repositories"
     end
+
+    test "erro ao listar os repositórios", %{conn: conn} do
+      conn = get(conn, Routes.repository_path(conn, :index))
+      assert html_response(conn, 417) =~ "Listing Repositories"
+    end
   end
 
-  defp create_repository(_) do
-    repository = fixture(:repository)
-    %{repository: repository}
+  describe "show/1" do
+    test "consultar repositório", %{conn: conn} do
+      conn = get(conn, Routes.repository_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Repositories"
+    end
+
+    test "erro ao consultar repositório", %{conn: conn} do
+      conn = get(conn, Routes.repository_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Repositories"
+    end
   end
 end
