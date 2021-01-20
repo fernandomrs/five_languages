@@ -1,7 +1,0 @@
-<h1>Show Repository</h1>
-
-<ul>
-
-</ul>
-
-<span><%= @conn %></span>

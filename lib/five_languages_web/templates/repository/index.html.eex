@@ -1,0 +1,36 @@
+<h1>Listing Repositories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Linguagem</th>
+      <th>Nome</th>
+      <th>Dono</th>
+      <th>Estrelas</th>
+      <th>Forks</th>
+      <th>Criado em</th>
+      <th>Link</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for repository <- @repositories do %>
+      <tr>
+        <td><%= repository.language %></td>
+        <td><%= repository.name %></td>
+        <td><%= repository.owner %></td>
+        <td><%= repository.watchers %></td>
+        <td><%= repository.forks %></td>
+        <td><%= repository.created_at %></td>
+        <td>
+          <a href="<%= repository.clone_url %>">Source</a>
+        </td>
+        <td>
+          <span><%= link "Detalhes", to: Routes.repository_path(@conn, :show, repository) %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link "Sync", to: Routes.repository_path(@conn, :index) %>

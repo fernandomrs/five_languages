@@ -7,7 +7,8 @@ defmodule FiveLanguages.Search do
   alias FiveLanguages.Repo
 
   alias FiveLanguages.Search.Repository
-  alias FiveLanguages.ApiGit.SearchRepositories
+  alias FiveLanguages.ApiGit.Search.Repositories
+  alias FiveLanguages.ApiGit.Repositories.GetRepository
 
   @doc """
   Retorna a listagem de repositórios com mais estrelas de cinco linguagens.
@@ -59,7 +60,7 @@ defmodule FiveLanguages.Search do
 
   defp search_repositories(params \\ []) do
     params
-    |> SearchRepositories.do_request()
+    |> Repositories.do_request()
     |> case do
       %{"items" => [item]} ->
         item
@@ -84,5 +85,11 @@ defmodule FiveLanguages.Search do
       ** (Ecto.NoResultsError)
 
   """
-  def get_repository!(id), do: Repo.get!(Repository, id)
+  def get_repository(id) do
+    repository = Repo.get!(Repository, id)
+
+    repository
+    |> Map.take([:owner, :name])
+    |> GetRepository.do_request()
+  end
 end

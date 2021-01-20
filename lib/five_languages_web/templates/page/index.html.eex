@@ -37,3 +37,5 @@
   </article>
 
 </section>
+
+<span><%= link("Consultar", to: "/repositories", method: :get) %></span>

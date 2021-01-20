@@ -1,4 +1,4 @@
-defmodule FiveLanguages.ApiGit.SearchRepositories do
+defmodule FiveLanguages.ApiGit.Search.Repositories do
   @moduledoc """
   """
 
