@@ -1,9 +1,19 @@
 defmodule FiveLanguages.Git do
+  @moduledoc """
+
+  """
+
+  @doc """
+
+  """
   def search_repositories(params),
     do: adapter().search_repositories(params)
 
-  def get_repositorio(params, opts \\ []),
-    do: adapter().get_repositorio(params, opts)
+  @doc """
+
+  """
+  def get_repository(params, opts \\ []),
+    do: adapter().get_repository(params, opts)
 
   defp adapter do
     :five_languages

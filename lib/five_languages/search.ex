@@ -14,7 +14,7 @@ defmodule FiveLanguages.Search do
 
   ## Examples
       iex> list_main_repositories(["elixir", "python", "swift", "kotlin", "javascript"])
-      [%Repository{}, ...]
+      {:ok, [%Repository{}, ...]}
 
   """
   def list_main_repositories(languages) when is_list(languages) do
@@ -50,7 +50,7 @@ defmodule FiveLanguages.Search do
       ]
       |> search_repositories()
       |> case do
-        {:ok, items} ->
+        {:ok, %{items: items}} ->
           items
           |> Enum.at(0)
           |> insert_repository()
@@ -62,6 +62,13 @@ defmodule FiveLanguages.Search do
     |> Stream.into(%{})
     |> Enum.map(fn {:ok, item} -> item end)
     |> Enum.filter(& is_map/1)
+    |> case do
+      [] ->
+        {:error, []}
+
+      repositories ->
+        {:ok, repositories}
+    end
   end
 
   defp search_repositories(params) do
@@ -91,17 +98,22 @@ defmodule FiveLanguages.Search do
 
   """
   def get_repository(id) do
-    repository = Repo.get!(Repository, id)
+    Repository
+    |> where(id: ^id)
+    |> Repo.one()
+    |> case do
+      nil ->
+        {:error, :not_found}
 
-    repository
-    |> Map.take([:owner, :name])
-    |> Git.get_repositorio()
+      repository ->
+        Git.get_repository(repository)
+    end
   end
 
   defp insert_repository(repository) do
     repository =
       repository
-      |> Map.update!(:owner, & Map.get(&1, :login))
+      |> Map.update(:owner, "", & Map.get(&1, :login))
       |> Map.put(:git_id, Map.get(repository, :id))
 
     %Repository{}

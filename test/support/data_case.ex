@@ -56,8 +56,8 @@ defmodule FiveLanguages.DataCase do
     end)
   end
 
-  def many_repo_success(_) do
-    {:ok, [
+  def search_repositories_success(_) do
+    {:ok, %{items: [
       %{
         clone_url: "https://github.com/teste-owner/teste.git",
         created_at: ~N[2010-01-01 00:00:00],
@@ -70,18 +70,35 @@ defmodule FiveLanguages.DataCase do
         },
         watchers: 1
       }
-    ]}
+    ]}}
   end
 
-  def many_repo_error(_) do
+  def get_repository_success(_, _) do
+    {:ok, %{
+      clone_url: "https://github.com/teste-owner/teste.git",
+      created_at: ~N[2010-01-01 00:00:00],
+      forks: 1,
+      id: 1,
+      language: "Teste",
+      name: "teste",
+      owner: %{
+        login: "teste-owner"
+      },
+      watchers: 1
+    }}
+  end
+
+  def search_repositories_error(_) do
     [
       :error
     ]
   end
 
-  def get_save_repo() do
-    Repo.get_by(Repository, name: "teste")
+  def get_repository_error(_, _) do
+    {:error, :not_found}
   end
+
+  def get_repositories(), do: Repo.all(Repository)
 
   def insert_repositories() do
     repositories =
