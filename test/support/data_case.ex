@@ -14,6 +14,9 @@ defmodule FiveLanguages.DataCase do
   this option is not recommended for other databases.
   """
 
+  alias FiveLanguages.Repo
+  alias FiveLanguages.Search.Repository
+
   use ExUnit.CaseTemplate
 
   using do
@@ -51,5 +54,52 @@ defmodule FiveLanguages.DataCase do
         opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
       end)
     end)
+  end
+
+  def many_repo_success(_) do
+    {:ok, [
+      %{
+        clone_url: "https://github.com/teste-owner/teste.git",
+        created_at: ~N[2010-01-01 00:00:00],
+        forks: 1,
+        id: 1,
+        language: "Teste",
+        name: "teste",
+        owner: %{
+          login: "teste-owner"
+        },
+        watchers: 1
+      }
+    ]}
+  end
+
+  def many_repo_error(_) do
+    [
+      :error
+    ]
+  end
+
+  def get_save_repo() do
+    Repo.get_by(Repository, name: "teste")
+  end
+
+  def insert_repositories() do
+    repositories =
+      Enum.map(1..5, fn number ->
+        %{
+          clone_url: "https://github.com/teste-owner/teste.git",
+          created_at: ~N[2010-01-01 00:00:00],
+          forks: 1,
+          git_id: 1,
+          language: "Teste_#{number}",
+          name: "teste_#{number}",
+          owner: "teste-owner-#{number}",
+          inserted_at: ~N[2010-01-01 00:00:00],
+          updated_at: ~N[2010-01-01 00:00:00],
+          watchers: 1
+        }
+      end)
+
+    Repo.insert_all(Repository, repositories)
   end
 end

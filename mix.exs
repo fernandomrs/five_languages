@@ -50,6 +50,8 @@ defmodule FiveLanguages.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:httpoison, "~> 1.8"},
+      {:exvcr, "~> 0.11", only: :test},
+      {:mox, "1.0.0", only: [:test], runtime: false},
       {:plug_cowboy, "~> 2.0"}
     ]
   end

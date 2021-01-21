@@ -16,6 +16,8 @@ config :five_languages, FiveLanguages.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+config :five_languages, FiveLanguages.Git, adapter: FiveLanguages.Git.Adapters.GitHub
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

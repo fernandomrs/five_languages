@@ -7,6 +7,8 @@ use Mix.Config
 # Run `mix help test` for more information.
 database_url = System.get_env("DATABASE_URL")
 
+config :five_languages, FiveLanguages.Git, adapter: FiveLanguages.Git.Adapters.Mock
+
 config :five_languages, FiveLanguages.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   url: database_url,

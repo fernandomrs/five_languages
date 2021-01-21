@@ -7,8 +7,7 @@ defmodule FiveLanguages.Search do
   alias FiveLanguages.Repo
 
   alias FiveLanguages.Search.Repository
-  alias FiveLanguages.ApiGit.Search.Repositories
-  alias FiveLanguages.ApiGit.Repositories.GetRepository
+  alias FiveLanguages.Git
 
   @doc """
   Retorna a listagem de repositórios com mais estrelas de cinco linguagens.
@@ -43,31 +42,37 @@ defmodule FiveLanguages.Search do
 
     languages
     |> Task.async_stream(fn language ->
-      attrs = search_repositories([
+      [
         q: "language:#{language}",
         per_page: 1,
         sort: "stars",
         order: "desc"
-      ])
+      ]
+      |> search_repositories()
+      |> case do
+        {:ok, items} ->
+          items
+          |> Enum.at(0)
+          |> insert_repository()
 
-      %Repository{}
-      |> Repository.changeset(attrs)
-      |> Repo.insert!()
+        error ->
+          error
+      end
     end)
     |> Stream.into(%{})
     |> Enum.map(fn {:ok, item} -> item end)
+    |> Enum.filter(& is_map/1)
   end
 
-  defp search_repositories(params \\ []) do
+  defp search_repositories(params) do
     params
-    |> Repositories.do_request()
+    |> Git.search_repositories()
     |> case do
-      %{"items" => [item]} ->
-        item
-        |> Map.update!("owner", & Map.get(&1, "login"))
-        |> Map.put("git_id", Map.get(item, "id"))
+      {:ok, %{"items" => items}} ->
+        {:ok, items}
 
-      error -> error
+      error ->
+        error
     end
   end
 
@@ -90,6 +95,17 @@ defmodule FiveLanguages.Search do
 
     repository
     |> Map.take([:owner, :name])
-    |> GetRepository.do_request()
+    |> Git.get_repositorio()
+  end
+
+  defp insert_repository(repository) do
+    repository =
+      repository
+      |> Map.update!(:owner, & Map.get(&1, :login))
+      |> Map.put(:git_id, Map.get(repository, :id))
+
+    %Repository{}
+    |> Repository.changeset(repository)
+    |> Repo.insert!()
   end
 end
