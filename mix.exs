@@ -51,6 +51,7 @@ defmodule FiveLanguages.MixProject do
       {:jason, "~> 1.0"},
       {:httpoison, "~> 1.8"},
       {:exvcr, "~> 0.11", only: :test},
+      {:timex, "3.6.1"},
       {:mox, "1.0.0", only: [:test], runtime: false},
       {:plug_cowboy, "~> 2.0"}
     ]

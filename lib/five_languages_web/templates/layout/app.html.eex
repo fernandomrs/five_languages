@@ -11,9 +11,9 @@
   <body>
     <header>
       <section class="container">
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
+        <div class="logo">
+          <img src="<%= Routes.static_path(@conn, "/images/five.png") %>" />
+        </div>
       </section>
     </header>
     <main role="main" class="container">

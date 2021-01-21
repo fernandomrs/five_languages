@@ -1,47 +1,47 @@
-<h1><%= @repository["name"] %></h1>
+<h1><%= @repository.name %></h1>
 
 
 <div>
-    <%= @repository["full_name"] %>
+    <%= @repository.full_name %>
 </div>
 <hr>
 
 <div>
-    <%= @repository["owner"]["login"] %>
+    <%= @repository.owner.login %>
 </div>
 <div>
-    <%= @repository["owner"]["html_url"] %>
+    <%= @repository.owner.html_url %>
 </div>
 <div>
-    <%= @repository["owner"]["type"] %>
-</div>
-<hr>
-
-<div>
-    <%= @repository["description"] %>
+    <%= @repository.owner.type %>
 </div>
 <hr>
 
 <div>
-    <%= @repository["html_url"] %>
+    <%= @repository.description %>
+</div>
+<hr>
+
+<div>
+    <%= @repository.html_url %>
 </div>
 
 <div>
-    <%= inspect @repository["license"] %>
+    <%= inspect @repository.license %>
 </div><hr>
 
-<div>Linguagem: <%= @repository["language"] %></div><hr>
-<div>Forks: <%= @repository["forks"] %></div><hr>
-<div>Estrelas: <%= @repository["stargazers_count"] %></div><hr>
-<div>Tamanho: <%= @repository["size"] %></div><hr>
-<div>Default Branch: <%= @repository["default_branch"] %></div><hr>
-<div>Open Issues: <%= @repository["open_issues"] %></div><hr>
-<div>Criado <%= @repository["created_at"] %></div><hr>
-<div>Atualizado <%= @repository["updated_at"] %></div><hr>
-<div>Pushed <%= @repository["pushed_at"] %></div><hr>
+<div>Linguagem: <%= @repository.language %></div><hr>
+<div>Forks: <%= @repository.forks %></div><hr>
+<div>Estrelas: <%= @repository.stargazers_count %></div><hr>
+<div>Tamanho: <%= @repository.size %></div><hr>
+<div>Default Branch: <%= @repository.default_branch %></div><hr>
+<div>Open Issues: <%= @repository.open_issues %></div><hr>
+<div>Criado <%= @repository.created_at %></div><hr>
+<div>Atualizado <%= @repository.updated_at %></div><hr>
+<div>Pushed <%= @repository.pushed_at %></div><hr>
 
-<div>Home <%= @repository["homepage"] %></div><hr>
+<div>Home <%= @repository.homepage %></div><hr>
 
 
 
-<span><%= link "Back", to: Routes.repository_path(@conn, :index) %></span>
+<%= link "Back", to: Routes.repository_path(@conn, :index, languages: ["elixir", "python", "swift", "kotlin", "javascript"]), class: "button" %>
