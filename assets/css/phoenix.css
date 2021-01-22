@@ -68,6 +68,22 @@ select {
   color: #ffffff;
 }
 
+.col-4, .col-12 {
+  display: inline-block;
+}
+
+.col-4 {
+  width: 32%;
+}
+
+.col-12 {
+  width: 100%;
+}
+
+.pb-12 {
+  padding-bottom: 12px;
+}
+
 /* Headers */
 header {
   width: 100%;

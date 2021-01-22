@@ -58,7 +58,7 @@ defmodule FiveLanguages.Search do
         error ->
           error
       end
-    end)
+    end, timeout: 60_000 )
     |> Stream.into(%{})
     |> Enum.map(fn {:ok, item} -> item end)
     |> Enum.filter(& is_map/1)

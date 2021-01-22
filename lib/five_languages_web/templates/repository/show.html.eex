@@ -1,47 +1,69 @@
-<h1><%= @repository.name %></h1>
+<section class="phx-hero">
+    <h1><%= @repository.name %></h1>
+    <span>
+        <a href="<%= @repository.html_url %>"><%= @repository.full_name %></a>
+    </span>
+    <hr>
 
+    <div class="col-12"><h3>Proprietário</h3></div>
+    <div class="col-4">
+        <label>Nome</label>
+        <%= @repository.owner.login %>
+    </div>
+    <div class="col-4">
+        <a href="<%= @repository.owner.html_url %>">Git</a>
+    </div>
+    <div class="col-4">
+        <label>Tipo</label>
+        <%= if @repository.owner.type == "User", do: "Usuário", else: "Organização" %>
+    </div>
+    <hr>
 
-<div>
-    <%= @repository.full_name %>
-</div>
-<hr>
+    <div class="col-12"><h3>Descrição</h3></div>
+    <div class="col-12"><%= @repository.description %></div>
+    <hr>
 
-<div>
-    <%= @repository.owner.login %>
-</div>
-<div>
-    <%= @repository.owner.html_url %>
-</div>
-<div>
-    <%= @repository.owner.type %>
-</div>
-<hr>
+    <div class="col-12"><h3>Dados Gerais</h3></div>
+    <div class="col-4 pb-12">
+        <label>Linguagem</label>
+        <%= @repository.language %>
+    </div>
+    <div class="col-4 pb-12">
+        <label>Forks</label>
+        <%= @repository.forks %>
+    </div>
+    <div class="col-4 pb-12">
+        <label>Estrelas</label>
+        <%= @repository.stargazers_count %>
+    </div>
+    <div class="col-4">
+        <label>Tamanho</label>
+        <%= @repository.size %>
+    </div>
+    <div class="col-4">
+        <label>Branch Padrão</label>
+        <%= @repository.default_branch %>
+    </div>
+    <div class="col-4">
+        <label>Issues Abertos</label>
+        <%= @repository.open_issues %>
+    </div>
+    <hr>
 
-<div>
-    <%= @repository.description %>
-</div>
-<hr>
+    <div class="col-12"><h3>Datas</h3></div>
+     <div class="col-4">
+        <label>Criado</label>
+        <%= format_date_hour(@repository.created_at) %>
+    </div>
+    <div class="col-4">
+        <label>Atualizado</label>
+        <%= format_date_hour(@repository.updated_at) %>
+    </div>
+    <div class="col-4">
+        <label>Último Push</label>
+        <%= format_date_hour(@repository.pushed_at) %>
+    </div>
+    <hr>
 
-<div>
-    <%= @repository.html_url %>
-</div>
-
-<div>
-    <%= inspect @repository.license %>
-</div><hr>
-
-<div>Linguagem: <%= @repository.language %></div><hr>
-<div>Forks: <%= @repository.forks %></div><hr>
-<div>Estrelas: <%= @repository.stargazers_count %></div><hr>
-<div>Tamanho: <%= @repository.size %></div><hr>
-<div>Default Branch: <%= @repository.default_branch %></div><hr>
-<div>Open Issues: <%= @repository.open_issues %></div><hr>
-<div>Criado <%= @repository.created_at %></div><hr>
-<div>Atualizado <%= @repository.updated_at %></div><hr>
-<div>Pushed <%= @repository.pushed_at %></div><hr>
-
-<div>Home <%= @repository.homepage %></div><hr>
-
-
-
-<%= link "Back", to: Routes.repository_path(@conn, :index, languages: ["elixir", "python", "swift", "kotlin", "javascript"]), class: "button" %>
+    <%= link "Voltar", to: Routes.repository_path(@conn, :index, languages: ["elixir", "python", "swift", "kotlin", "javascript"]), class: "button" %>
+</section>

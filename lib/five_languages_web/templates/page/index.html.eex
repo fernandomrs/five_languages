@@ -1,11 +1,10 @@
 <section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>
-    Busca e apresenta os repositórios em destaque (com mais estrelas) de 5 linguagens pré definidas.
-    linguagens: Elixir, Python, Swift, Kotlin e JavaScript
-    Como a api do git não permite consultar apenas os principais repositórios de cada linguagem em 
-    uma única requisição, tive que fazer em requisições separadas (pelo menos elas são realizadas em 
-    paralelo com o 'Task.async_stream')
+  <h1>Cinco Linguagens</h1>
+  <p>Busca e apresenta os repositórios em destaque (com mais estrelas) de 5 linguagens pré definidas.</p>
+  <p>Linguagens: <strong>Elixir, Python, Swift, Kotlin e JavaScript</strong></p>
+    Como a <strong>API REST do GitHub</strong> não permite consultar apenas os principais repositórios de cada linguagem em
+    uma única requisição, foi necessário fazer em requisições separadas, elas são realizadas em
+    paralelo com o <code>Task.async_stream/3</code>.
   </p>
   <%= link("Consultar", to: Routes.repository_path(@conn, :index, languages: ["elixir", "python", "swift", "kotlin", "javascript"]), class: "button") %>
 </section>

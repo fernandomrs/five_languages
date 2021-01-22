@@ -1,18 +1,18 @@
 <section class="phx-hero">
   <div>
-    <h1 class="pull-left">Main Repositories</h1>
-    <%= link "Sync", to: Routes.repository_path(@conn, :index, languages: ["elixir", "python", "swift", "kotlin", "javascript"]), class: "button pull-rigth" %>
+    <h1 class="pull-left">Principais Repositórios</h1>
+    <%= link "Sincronizar", to: Routes.repository_path(@conn, :index, languages: ["elixir", "python", "swift", "kotlin", "javascript"]), class: "button pull-rigth" %>
   </div>
 
   <table>
     <thead>
       <tr>
-        <th>Languages</th>
-        <th>Name</th>
-        <th>Owner</th>
-        <th>Stars</th>
+        <th>Linguagem</th>
+        <th>Nome</th>
+        <th>Proprietário</th>
+        <th>Estrelas</th>
         <th>Forks</th>
-        <th>Date</th>
+        <th>Data</th>
         <th></th>
       </tr>
     </thead>
@@ -26,13 +26,13 @@
           <td><%= repository.forks %></td>
           <td><%= format_date_hour(repository.created_at) %></td>
           <td>
-            <span><%= link "Details", to: Routes.repository_path(@conn, :show, repository) %></span>
+            <span><%= link "Detalhes", to: Routes.repository_path(@conn, :show, repository) %></span>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
   <div class="text-left">
-    <%= link "Back", to: Routes.page_path(@conn, :index), class: "button" %>
+    <%= link "Voltar", to: Routes.page_path(@conn, :index), class: "button" %>
   </div>
 </section>
