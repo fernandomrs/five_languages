@@ -26,7 +26,7 @@ defmodule FiveLanguages.Git.Adapters.GitHub do
 
   ## Examples
     iex> search_repositories(%{owner: "elixir-lang", name: "elixir"})
-    {:ok, %{clone_url: _, forks: _, ...}}
+    {:ok, %{name: _, forks: _, ...}}
 
   """
   def get_repository(%{owner: owner, name: name}, opts \\ []) do
@@ -41,7 +41,7 @@ defmodule FiveLanguages.Git.Adapters.GitHub do
         {:ok, Jason.decode!(body, keys: :atoms)}
 
       {:ok, %HTTPoison.Response{status_code: 422}} ->
-        :error
+        {:error, :unprocessable_entity}
 
       _ ->
         {:error, :another_error}
