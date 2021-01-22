@@ -15,13 +15,14 @@ defmodule FiveLanguagesWeb.RepositoryController do
         _ ->
           conn
           |> put_status(:not_found)
+          |> json(%{error: "Sem registros"})
       end
 
     else
       _ ->
         conn
         |> put_status(:expectation_failed)
-        |> json(%{})
+        |> json(%{error: "Parâmetros inválidos"})
     end
   end
 
@@ -34,8 +35,8 @@ defmodule FiveLanguagesWeb.RepositoryController do
 
       _ ->
         conn
-        |> put_status(:expectation_failed)
-        |> json(%{})
+        |> put_status(:not_found)
+        |> json(%{error: "Sem registro"})
     end
   end
 end

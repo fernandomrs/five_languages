@@ -49,7 +49,7 @@ defmodule FiveLanguages.SearchTest do
     test "sync_main_repositories/1 erro na consulta de repositórios" do
       expect(Mock, :search_repositories, & DataCase.search_repositories_error/1)
 
-      assert {:error, []} == Search.list_main_repositories(["teste"])
+      assert {:error, []} == Search.sync_main_repositories(["teste"])
     end
 
     test "get_repository/1 retorna o repositório de acordo com o id" do

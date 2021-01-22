@@ -75,16 +75,24 @@ defmodule FiveLanguages.DataCase do
 
   def get_repository_success(_, _) do
     {:ok, %{
-      clone_url: "https://github.com/teste-owner/teste.git",
-      created_at: ~N[2010-01-01 00:00:00],
-      forks: 1,
-      id: 1,
-      language: "Teste",
       name: "teste",
+      html_url: "https://github.com/teste-owner/teste.git",
+      full_name: "Teste/teste",
       owner: %{
-        login: "teste-owner"
+        login: "teste-owner",
+        html_url: "https://github.com/teste-owner/teste.git",
+        type: "User"
       },
-      watchers: 1
+      description: "Teste teste teste",
+      language: "Teste",
+      forks: 1,
+      stargazers_count: 1,
+      size: 1,
+      default_branch: "main",
+      open_issues: 1,
+      created_at: ~N[2010-01-01 00:00:00],
+      updated_at: ~N[2010-01-01 00:00:00],
+      pushed_at: ~N[2010-01-01 00:00:00],
     }}
   end
 
@@ -100,9 +108,9 @@ defmodule FiveLanguages.DataCase do
 
   def get_repositories(), do: Repo.all(Repository)
 
-  def insert_repositories() do
+  def insert_repositories(times \\ 5) do
     repositories =
-      Enum.map(1..5, fn number ->
+      Enum.map(1..times, fn number ->
         %{
           clone_url: "https://github.com/teste-owner/teste.git",
           created_at: ~N[2010-01-01 00:00:00],
